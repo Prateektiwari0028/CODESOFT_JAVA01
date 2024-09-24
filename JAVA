@@ -1,0 +1,60 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class EnhancedNumberGuessingGame {
+    private static final int MAX_NUMBER = 100; // Upper limit for the guessing range
+    private static final int MAX_ATTEMPTS = 10; // Maximum number of attempts allowed
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+        boolean playAgain;
+
+        do {
+            int numberToGuess = random.nextInt(MAX_NUMBER) + 1; // Random number between 1 and 100
+            int attempts = 0;
+            boolean guessedCorrectly = false;
+
+            System.out.println("Welcome to the Enhanced Number Guessing Game!");
+            System.out.println("I have selected a number between 1 and " + MAX_NUMBER + ".");
+            System.out.println("You have " + MAX_ATTEMPTS + " attempts to guess it.");
+
+            while (attempts < MAX_ATTEMPTS) {
+                System.out.print("Enter your guess: ");
+                int guess = scanner.nextInt();
+                attempts++;
+
+                if (guess < 1 || guess > MAX_NUMBER) {
+                    System.out.println("Please guess a number between 1 and " + MAX_NUMBER + ".");
+                    attempts--; // Don't count invalid attempts
+                    continue;
+                }
+
+                if (guess < numberToGuess) {
+                    System.out.println("Too low! Try again.");
+                } else if (guess > numberToGuess) {
+                    System.out.println("Too high! Try again.");
+                } else {
+                    System.out.println("Congratulations! You've guessed the number in " + attempts + " attempts!");
+                    guessedCorrectly = true;
+                    break; // Player guessed correctly
+                }
+
+                System.out.println("You have " + (MAX_ATTEMPTS - attempts) + " attempts left.");
+            }
+
+            if (!guessedCorrectly) {
+                System.out.println("Sorry, you've run out of attempts. The number was: " + numberToGuess);
+            }
+
+            // Ask if the player wants to play again
+            System.out.print("Do you want to play again? (yes/no): ");
+            String response = scanner.next().trim().toLowerCase();
+            playAgain = response.equals("yes");
+
+        } while (playAgain);
+
+        System.out.println("Thank you for playing! Goodbye!");
+        scanner.close();
+    }
+}
